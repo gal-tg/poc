@@ -1,0 +1,25 @@
+{
+  "name": "poc",
+  "version": "0.0.0",
+  "description": "poc\r ===",
+  "main": "index.js",
+  "dependencies": {
+    "dependable": "~0.2.5",
+    "express": "~4.0.0",
+    "jasmine-node": "~1.14.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tenengroup/poc"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tenengroup/poc/issues"
+  },
+  "homepage": "https://github.com/tenengroup/poc"
+}
