@@ -7,7 +7,8 @@
     "dependable": "~0.2.5",
     "express": "~4.0.0",
     "jasmine-node": "~1.14.3",
-    "when": "^3.1.0"
+    "when": "^3.1.0",
+    "mongoose": "~3.8.8"
   },
   "devDependencies": {},
   "scripts": {
