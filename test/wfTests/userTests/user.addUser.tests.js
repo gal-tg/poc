@@ -1,6 +1,6 @@
-exports = function (env) {
+exports.run = function (fw) {
     describe("addUser", function () {
-        it("should multiply 2 and 3", function () {
+        it("should call bl addUser", function () {
             expect(env.testNumber).toBe(2);
         });
     });
