@@ -1,6 +1,4 @@
-/**
- * Created by Gal.W on 10/04/2014.
- */
+
 module.exports = function(grunt) {
 
     grunt.initConfig({
@@ -8,6 +6,23 @@ module.exports = function(grunt) {
         jasmine: {
             files: ['test/**/*.spec.js']
         },
+        jasmine_node: {
+            options: {
+                forceExit: true,
+                match: '.',
+                matchall: false,
+                extensions: 'js',
+                specNameMatcher: 'spec',
+                jUnit: {
+                    report: true,
+                    savePath : "./build/reports/jasmine/",
+                    useDotNotation: true,
+                    consolidate: true
+                }
+            },
+            all: ['spec/']
+        },
+
         jshint: {
             files: ['Gruntfile.js', 'src/**/*.js', 'test/**/*.js'],
             options: {
@@ -22,16 +37,16 @@ module.exports = function(grunt) {
         },
         watch: {
             files: ['<%= jshint.files %>'],
-            tasks: ['jshint', 'jasmine']
+            tasks: ['jshint', 'jasmine','jasmine_node']
         }
     });
 
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-jasmine');
+    grunt.loadNpmTasks('grunt-jasmine-node');
 
-    grunt.registerTask('test', ['jshint', 'jasmine']);
-
-    grunt.registerTask('default', ['jshint', 'jasmine']);
+    grunt.registerTask('test', ['jshint', 'jasmine','jasmine_node']);
+    grunt.registerTask('default', ['jshint', 'jasmine','jasmine_node']);
 
 };
