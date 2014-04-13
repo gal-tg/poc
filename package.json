@@ -12,7 +12,9 @@
     "grunt-cli": "^0.1.13",
     "mongoose": "^3.8.8",
     "grunt-contrib-jshint": "^0.10.0",
-    "grunt-contrib-watch": "^0.6.1"
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-jasmine-node": "^0.2.1",
+    "q": "^1.0.1"
   },
   "devDependencies": {
     "grunt-contrib-jasmine": "^0.6.3",
