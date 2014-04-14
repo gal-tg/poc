@@ -1,7 +1,7 @@
 describe('User CRUD', function () {
-
     var User = require('../models/User');
     var user = {};
+    var should = require('should');
 
 
     beforeEach(function() {
@@ -19,7 +19,7 @@ describe('User CRUD', function () {
 
         user.save(function (err, user, numAffected) {
 
-            expect(numAffected).toBe(1, 'user wasn\'t added to database');
+            numAffected.should.be.exactly(1);//, 'user wasn\'t added to database');
 
             done();
 
@@ -37,10 +37,12 @@ describe('User CRUD', function () {
         });
 
         user.validate(function (err) {
+            err.should.be.type('object');
 
-            expect(err).toBeDefined('user passed validation');
+            //expect(err).toBeDefined('user passed validation');
             if (err && err.errors)
-                expect(err['errors']['email']).toBeDefined(user.email + ' passed email validation');
+                //expect(err['errors']['email']).toBeDefined(user.email + ' passed email validation');
+            err['errors']['email'].should.be.an.Object;
             done();
         });
 

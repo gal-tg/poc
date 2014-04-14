@@ -1,43 +1,10 @@
-
 module.exports = function (grunt) {
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-        jasmine_node: {
-            options: {
-                forceExit: true,
-                match: '.',
-                matchall: false,
-                extensions: 'js',
-                specNameMatcher: 'spec',
-                jUnit: {
-                    report: true,
-                    savePath: "./build/reports/jasmine/",
-                    useDotNotation: true,
-                    consolidate: true
-                }
-            },
-            all: ['test/']
-        },
-        jasmine_node: {
-            options: {
-                forceExit: true,
-                match: '.',
-                matchall: false,
-                extensions: 'js',
-                specNameMatcher: 'spec',
-                jUnit: {
-                    report: true,
-                    savePath : "./build/reports/jasmine/",
-                    useDotNotation: true,
-                    consolidate: true
-                }
-            },
-            all: ['spec/']
-        },
 
         jshint: {
-            files: ['Gruntfile.js', 'src/**/*.js', 'test/**/*.js','test/*.js'],
+            files: ['Gruntfile.js', 'src/**/*.js', 'test/**/*.js', 'test/*.js'],
             options: {
                 // options here to override JSHint defaults
                 globals: {
@@ -50,17 +17,27 @@ module.exports = function (grunt) {
         },
         watch: {
             files: ['<%= jshint.files %>'],
-            tasks: ['jshint', 'jasmine','jasmine_node']
+            tasks: ['jshint']
+        },
+        mochaTest: {
+            test: {
+                options: {
+                    reporter: 'spec'
+                },
+                src: ['spec/**/*.js']
+            }
         }
+
     });
 
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-contrib-jasmine');
-    grunt.loadNpmTasks('grunt-jasmine-node');
+    grunt.loadNpmTasks('grunt-mocha-test');
 
-    grunt.registerTask('test', ['jshint', 'jasmine','jasmine_node']);
-    grunt.registerTask('default', ['jshint', 'jasmine','jasmine_node']);
+
+
+    grunt.registerTask('test', ['jshint']);
+    grunt.registerTask('default', ['jshint','mochaTest']);
 
 
 };
