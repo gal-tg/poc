@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<testsuites>
-<testsuite name="User CRUD" errors="0" tests="2" failures="0" time="0.04" timestamp="2014-04-13T12:36:30">
-  <testcase classname="User CRUD" name="should add new user" time="0.028"></testcase>
-  <testcase classname="User CRUD" name="should reject invalid emails" time="0.012"></testcase>
-</testsuite>
-</testsuites>

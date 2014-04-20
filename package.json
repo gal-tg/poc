@@ -1,35 +1,19 @@
 {
   "name": "poc",
-  "version": "0.0.0",
-  "description": "poc\r ===",
+  "version": "0.1.0",
+  "description": "",
   "main": "index.js",
   "dependencies": {
-    "dependable": "~0.2.5",
-    "express": "~4.0.0",
     "when": "^3.1.0",
-    "grunt": "^0.4.4",
-    "grunt-cli": "^0.1.13",
-    "mongoose": "^3.8.8",
-    "grunt-contrib-jshint": "^0.10.0",
-    "grunt-contrib-watch": "^0.6.1",
-    "q": "^1.0.1"
+    "dependable": "^0.2.5"
   },
   "devDependencies": {
-    "grunt-mocha-test": "^0.10.2",
-    "should": "^3.3.0",
+    "should": "^3.3.1",
     "sinon": "^1.9.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/tenengroup/poc"
+    "test": "istanbul cover _mocha -- -R spec --recursive tests/"
   },
   "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/tenengroup/poc/issues"
-  },
-  "homepage": "https://github.com/tenengroup/poc"
+  "license": "ISC"
 }
