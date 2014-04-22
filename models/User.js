@@ -9,7 +9,10 @@ var userSchema = new Schema({
         type: String,
         required: true
     },
-
+    phone: { 
+        type: Number,
+        required: false
+    },
     firstName: {
         type: String,
         required: true },
