@@ -34,4 +34,3 @@ process.on('SIGINT', function() {
 });
 
 exports.User = require('./User');
-exports.Product = require('./Product');
