@@ -1,8 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-mongoose.connect('mongodb://localhost/test');
-
 var emailRegex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
 
 var userSchema = new Schema({
@@ -11,7 +9,10 @@ var userSchema = new Schema({
         type: String,
         required: true
     },
-      //  validate: [function(val) { return emailRegex.test(val); }, 'Invalid email address'] },
+    phone: { 
+        type: Number,
+        required: false
+    },
     firstName: {
         type: String,
         required: true },
@@ -28,4 +29,6 @@ userSchema.path('email').validate(function (email) {
     return emailRegex.test(email);
 }, 'Invalid email address');
 
+
 module.exports = mongoose.model('User', userSchema);
+
