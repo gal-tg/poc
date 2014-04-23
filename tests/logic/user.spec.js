@@ -1,39 +1,96 @@
-var sinon = require('sinon');
-var assert = require('assert');
-var should = require('should');
+var sinon = require('sinon'),
+    when = require('when'),
+    assert = require('assert'),
+    should = require('should')
+var $di = require('dependable').container();
+$di.register(require('../../config'));
 
-var User = require('../../logic/user');
+var daUser = {};
 
-describe('User', function() {
+var User;
 
-	var sandbox = sinon.sandbox.create();
-	afterEach(function() { sandbox.restore() });
+var user;
 
-	it('should create valid user', function() {
+describe('User Logic', function () {
 
-		var user = {
-			name: "chen roth",
-			email: "rothchen@gmail.com"
-		};
 
-		User.create(user).should.be.true;
-	});
+    var User;
 
-	it('should NOT create invalid user', function() {
 
-		var user = {
-			name: "chen roth",
-			email: "invalid-email"
-		};
+    beforeEach(function () {
+        user = {
+            name: "chen roth",
+            email: "rothchen@gmail.com"
+        };
+        daUser = {
+            create: function (user, callback) {
+                console.log("this is the fake da user");
+                callback(undefined, true);
+            },
+            remove: function (user) {
+                return when.promise(function (res, rej) {
+                    res(user);
+                });
+            }
+        };
+        User = new $di.get('User', {daUser: daUser});
 
-		User.create(user).should.be.false;
+    });
 
-	});
+    describe('.create', function () {
 
-	it('should delete user', function() {
-		
-		User.delete('1@1.com').should.be.true;
-		
-	});
+
+        it("should return promise", function () {
+            User.create(user).should.be.an.instanceOf(when.Promise);
+        })
+
+
+        it('should create valid user', function (done) {
+            User.create(user).then()
+            {
+                done();
+            }
+        });
+
+
+        it('should NOT create invalid user', function (done) {
+            user.email = "invalid-email";
+            User = new $di.get('User', {
+                daUser: {
+                    create: function (user, callback) {
+                        console.log("this is the fake da user");
+                        callback(new Error(), false);
+                    }
+                }});
+
+            User.create(user).
+                done(function (res) {
+                    assert.fail("create should've failed");
+                    done();
+
+                }, function (rej) {
+                    done();
+                });
+
+        });
+    })
+
+    describe(".remove", function () {
+        it("should return promise", function () {
+            User.remove(user).should.be.an.instanceOf(when.Promise);
+        })
+
+        it("should success on valid email", function (done) {
+            User.remove(user.email)
+
+                .then(function () {
+                    done();
+                }).catch(function (err) {
+                    console.log(err);
+                })
+            ;
+        });
+    })
+
 
 });

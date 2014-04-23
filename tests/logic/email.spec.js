@@ -1,36 +1,49 @@
-var sinon = require('sinon');
-var assert = require('assert');
-var should = require('should');
+var sinon = require('sinon'),
+    should = require('should'),
+    when = require('when'),
+    exceptions = require('../../domain/exceptions'),
+    msg = {},
+    provider = {send: function (msg, res, rej) {
+        res();
+    }},
+    Email = require('../../logic/email')(provider);
+describe("Email", function () {
 
-var Email = require('../../logic/email');
+    beforeEach(function () {
+        msg.email = "1@1.com";
+        msg.content = "text";
+    });
 
-describe('Email', function() {
 
-	var sandbox = sinon.sandbox.create();
-	afterEach(function() { sandbox.restore() });
+    it("should send to valid email", function (done) {
+        Email.send(msg).then(function () {
+            done();
+        })
+    });
 
-	it('should send to valid email', function() {
 
-		var email = "1@1.com";
-		var msg = "text";
-		
-		Email.send(email, msg).should.be.true;
-	});
+    it("should reject on invalid email", function (done) {
+        msg.email = "invalid-email";
+        Email
+            .send(msg)
+            .catch(exceptions.InvalidOperationError, function (err) {
+                done();
+            })
+    });
 
-	it('should throw exception on invalid email', function() {
-		
-		var email = "invalid-email";
-		var msg = "text";
-		
-		(function() { Email.send(email, msg) }).should.throwError("invalid email");
-		
-	});
 
-	it('should throw exception on no content', function() {
-		
-		var email = "1@1.com";
-		(function() { Email.send(email) }).should.throwError("no content"); 
-		
-	});
+    it("should throw exception on no content", function (done) {
+        msg.content = null;
+        Email
+            .send(msg)
+            .catch(exceptions.InvalidOperationError, function () {
+                done();
+            });
+    });
+
+
+    it("should return promise", function () {
+        Email.send(msg).should.be.an.instanceOf(when.Promise);
+    });
 
 });

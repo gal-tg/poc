@@ -1,21 +1,24 @@
-var util = require('util');
+var when = require('when');
 
-module.exports = {
-	
-	util: util,
-	create: function(user) {
-
-		//console.log(util.format("* saving %s to db", user.email));
-		var emailRegex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-		return (emailRegex.test(user.email));
-	},
-
-	delete: function(email) {
-
-	//console.log(util.format("* %s has been deleted", email));	
-	return true;
+module.exports = function (daUser) {
+    return {
+        create: function (user) {
+            return when.promise(function (res, rej) {
+                daUser.create(user, function (err, result) {
+                    if (err) {
+                        rej(err);
+                        return;
+                    }
+                    else {
+                        res(result);
+                    }
+                });
+            })
+        },
+        remove: function (user) {
+            return when.promise(function (res, rej) {
+                daUser.remove(user).then(res, rej);
+            });
+        }
+    }
 }
-
-
-};
-

@@ -1,20 +1,22 @@
-var util = require('util');
-		
-module.exports = {
-	send: function(to, content) {
-		
-		var emailRegex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-		
-		if (!emailRegex.test(to))
-			throw new Error("invalid email");
-		
-		if (!content)
-			throw new Error("no content");
-		
-		//console.log(util.format("* sending the following content to %s:", to));
-		//console.log(util.format('"%s"', content));
-		return true; 
+var exceptions = require('../domain/exceptions'),
+    when = require('when');
 
-	}
+module.exports = function (emailService) {
+    return {
+        send: function (msg) {
+            return when.promise(function (res, rej) {
 
+                var emailRegex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+                if (!emailRegex.test(msg.email)) {
+                    rej(new exceptions.InvalidOperationError("invalid email"));
+                }
+
+                if (!msg.content) {
+                    rej(new exceptions.InvalidOperationError("no content"));
+                    return;
+                }
+
+                emailService.send(msg, res, rej);
+            });
+        }}
 };

@@ -5,9 +5,7 @@ module.exports = function (db, model) {
     self.model = model;
     self.db = db;
 
-
-    //self.instance = function() { return self.db[model](); }
-
+    /* istanbul ignore next */
     self.findById = function (id, project) {
         return self.db[model].findById(id, project).exec();
     };
